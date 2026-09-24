@@ -1,5 +1,5 @@
 Package: python3-hebrew
-Version: 1.0~rc1
+Version: 1.0
 Section: python
 Priority: optional
 Architecture: all
