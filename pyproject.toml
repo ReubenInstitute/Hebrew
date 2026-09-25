@@ -7,6 +7,7 @@ name = "Hebrew"
 version = "1.7"
 description = "Hebrew text and numeral utilities from Reuben Institute — letter constants, transliteration helpers, and Hebrew numeral (gematria) conversion"
 readme = { text = "Hebrew text and numeral utilities from Reuben Institute — letter constants, transliteration helpers, and Hebrew numeral (gematria) conversion.", content-type = "text/plain" }
+license = { text = "GPL-3.0-or-later" }
 requires-python = ">=3.8"
 dependencies = [
     "regex",
