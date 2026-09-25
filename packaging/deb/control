@@ -1,10 +1,10 @@
 Package: python3-hebrew
-Version: 1.0
+Version: 1.7
 Section: python
 Priority: optional
 Architecture: all
 Depends: python3, python3-regex
-Maintainer: Reuben Institute <robert.wallner.edward@gmail.com>
+Maintainer: Reuben Institute <reubeninstitute@gmail.com>
 Description: Hebrew text and numeral utilities
  Provides Hebrew and HebrewNumbers modules for working with
  Hebrew text (letter constants, transliteration helpers) and
