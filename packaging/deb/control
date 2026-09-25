@@ -6,6 +6,6 @@ Architecture: all
 Depends: python3, python3-regex
 Maintainer: Reuben Institute <reubeninstitute@gmail.com>
 Description: Hebrew text and numeral utilities
- Provides Hebrew and HebrewNumbers modules for working with
- Hebrew text (letter constants, transliteration helpers) and
- Hebrew numeral (gematria) conversion.
+ Hebrew text and numeral utilities from Reuben Institute — letter
+ constants, transliteration helpers, and Hebrew numeral (gematria)
+ conversion.
