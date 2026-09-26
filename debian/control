@@ -1,10 +1,13 @@
-Package: python3-hebrew
-Version: 1.11
+Source: hebrew
 Section: python
 Priority: optional
-Architecture: all
-Depends: python3, python3-regex
 Maintainer: Reuben Institute <reubeninstitute@gmail.com>
+Build-Depends: debhelper-compat (= 13), dh-python, pybuild-plugin-pyproject, python3-all, python3-setuptools
+Standards-Version: 4.6.2
+
+Package: python3-hebrew
+Architecture: all
+Depends: ${python3:Depends}, ${misc:Depends}, python3-regex
 Description: Hebrew text and numeral utilities
  Hebrew text and numeral utilities from Reuben Institute — letter
  constants, transliteration helpers, and Hebrew numeral (gematria)

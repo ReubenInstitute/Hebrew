@@ -1,0 +1,8 @@
+hebrew (1.13) unstable; urgency=medium
+
+  * Switch packaging from packaging/deb/ (dpkg-deb --build) to a proper
+    debian/ source package (dpkg-buildpackage), built with dh-python and
+    pybuild. Version is rewritten here at build time to 0.<git commit
+    count> by packaging/deb/build.sh's replacement, same as before.
+
+ -- Reuben Institute <reubeninstitute@gmail.com>  Sat, 26 Sep 2026 20:12:53 +0300
