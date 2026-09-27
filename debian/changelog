@@ -1,4 +1,4 @@
-hebrew (1.13) unstable; urgency=medium
+hebrew (1.14) unstable; urgency=medium
 
   * Switch packaging from packaging/deb/ (dpkg-deb --build) to a proper
     debian/ source package (dpkg-buildpackage), built with dh-python and
