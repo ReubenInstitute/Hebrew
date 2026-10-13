@@ -20,56 +20,48 @@ REVERSE_MAP_DICT = {v: k for k, v in HEBREW_NUMERALS['numerals'].items()}
 REVERSE_SOFIT_MAP = dict(REVERSE_MAP_DICT)
 REVERSE_SOFIT_MAP.update({v: k for k, v in HEBREW_NUMERALS['sofit'].items()})
 
-def _add_gershayim(s):
-	if len(s) == 1:
-		s += HEBREW_NUMERALS['separators']['geresh']
-	else:
-		s = ''.join([s[:-1], HEBREW_NUMERALS['separators']['gershayim'], s[-1:]])
-	return s
-
-def _digit_letters(value, sofit_notation):
-	if sofit_notation and value in HEBREW_NUMERALS['sofit']:
-		return HEBREW_NUMERALS['sofit'][value]
-	return HEBREW_NUMERALS['numerals'][value]
-
-def _convert_less_than_1000(num, gershayim=True, sofit_notation=False):
-	if num <= 0 or num >= 1000:
-		return ""
-	base = num % 100
-	hundreds = num - base
-	if base in HEBREW_NUMERALS['specials_suffix']:
-		suffix = HEBREW_NUMERALS['specials_suffix'][base]
-		if hundreds == 0:
-			remainder_str = suffix
-		else:
-			remainder_str = _digit_letters(hundreds, sofit_notation) + suffix
-	else:
-		parts = []
-		rest_str = str(num)
-		while rest_str:
-			digit = int(rest_str[0])
-			rest_str = rest_str[1:]
-			if digit == 0:
-				continue
-			power = 10 ** len(rest_str)
-			parts.append(_digit_letters(power * digit, sofit_notation))
-		remainder_str = ''.join(parts)
-	if gershayim:
-		return _add_gershayim(remainder_str)
-	return remainder_str
-
-def hebrew_number(num, sofit_notation=False):
-	return int_to_gematria(num, sofit_notation=sofit_notation)
-
-def hebrew_fancy_number(num, sofit_notation=False):
-	return int_to_gematria(num, gershayim=True, sofit_notation=sofit_notation)
-
-
 def int_to_gematria(num, gershayim=False, book_notation=False, sofit_notation=False):
 	if book_notation and sofit_notation:
 		raise ValueError("book_notation and sofit_notation cannot both be used: book_notation never produces a value in sofit's 500-900 range.")
 	if not isinstance(num, int) or num < 1:
 		return ""
+
+	def add_gershayim(s):
+		if len(s) == 1:
+			return s + HEBREW_NUMERALS['separators']['geresh']
+		return ''.join([s[:-1], HEBREW_NUMERALS['separators']['gershayim'], s[-1:]])
+
+	def digit_letters(value, sofit_notation):
+		if sofit_notation and value in HEBREW_NUMERALS['sofit']:
+			return HEBREW_NUMERALS['sofit'][value]
+		return HEBREW_NUMERALS['numerals'][value]
+
+	def convert_less_than_1000(num, gershayim=True, sofit_notation=False):
+		if num <= 0 or num >= 1000:
+			return ""
+		base = num % 100
+		hundreds = num - base
+		if base in HEBREW_NUMERALS['specials_suffix']:
+			suffix = HEBREW_NUMERALS['specials_suffix'][base]
+			if hundreds == 0:
+				remainder_str = suffix
+			else:
+				remainder_str = digit_letters(hundreds, sofit_notation) + suffix
+		else:
+			parts = []
+			rest_str = str(num)
+			while rest_str:
+				digit = int(rest_str[0])
+				rest_str = rest_str[1:]
+				if digit == 0:
+					continue
+				power = 10 ** len(rest_str)
+				parts.append(digit_letters(power * digit, sofit_notation))
+			remainder_str = ''.join(parts)
+		if gershayim:
+			return add_gershayim(remainder_str)
+		return remainder_str
+
 	if book_notation:
 		tav_count = num // 400
 		remainder = num % 400
@@ -77,10 +69,10 @@ def int_to_gematria(num, gershayim=False, book_notation=False, sofit_notation=Fa
 		if tav_count > 0:
 			result_parts.append('ת' * tav_count)
 		if remainder > 0:
-			result_parts.append(_convert_less_than_1000(remainder, gershayim=False))
+			result_parts.append(convert_less_than_1000(remainder, gershayim=False))
 		final_str = ''.join(result_parts)
 		if gershayim and final_str:
-			return _add_gershayim(final_str)
+			return add_gershayim(final_str)
 		return final_str
 	else:
 		thousands = num // 1000
@@ -90,7 +82,7 @@ def int_to_gematria(num, gershayim=False, book_notation=False, sofit_notation=Fa
 			thousands_str = int_to_gematria(thousands, gershayim=False, sofit_notation=sofit_notation)
 			result_parts.append(thousands_str + HEBREW_NUMERALS['separators']['geresh'])
 		if remainder > 0:
-			result_parts.append(_convert_less_than_1000(remainder, gershayim, sofit_notation))
+			result_parts.append(convert_less_than_1000(remainder, gershayim, sofit_notation))
 		return ''.join(result_parts)
 
 def gematria_to_int(gematria_str, book_notation=False, sofit_notation=False):
@@ -131,3 +123,15 @@ def gematria_to_int(gematria_str, book_notation=False, sofit_notation=False):
 		for char in remainder_str:
 			res += reverse_map.get(char, 0)
 		return res
+
+class Number:
+	def __init__(self, value):
+		self.value = value
+
+	@property
+	def text(self):
+		return int_to_gematria(self.value)
+
+	@property
+	def fancy_text(self):
+		return int_to_gematria(self.value, gershayim=True)
