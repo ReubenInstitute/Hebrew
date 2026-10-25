@@ -3,8 +3,8 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "python-hebrew"
-version = "0.16"
+name = "hebrew"
+version = "0.17"
 description = "Hebrew text and numeral utilities — letter constants, transliteration helpers, and Hebrew numeral (gematria) conversion"
 readme = { text = "Hebrew text and numeral utilities — letter constants, transliteration helpers, and Hebrew numeral (gematria) conversion.", content-type = "text/plain" }
 license = "GPL-3.0-or-later"
